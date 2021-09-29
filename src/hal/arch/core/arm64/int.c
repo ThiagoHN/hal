@@ -42,8 +42,6 @@ PUBLIC void arm64_do_interrupt(const struct context *ctx)
 		kprintf("[arm64] unhandled interruption %x", int_number);
 		UNREACHABLE();
 	}
-
-	kprintf("[arm64] interruption %d", int_number);
 	do_interrupt(int_number);
 	UNUSED(ctx);
 }

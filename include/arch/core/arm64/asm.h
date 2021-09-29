@@ -127,7 +127,7 @@
 		mov x1, #0x1000
 		add x0, x0, #1
 		mul x0, x0, x1
-		adrp x0, stack_base
+		adrp x0, kstacks
 		mov	sp, x0
 
 	.endm

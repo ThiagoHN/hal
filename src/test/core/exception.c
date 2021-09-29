@@ -247,7 +247,7 @@ PRIVATE void test_exception_set_unset_handler(void)
  */
 PRIVATE void test_trigger_exception(void)
 {
-#if defined(__rv32gc__) || defined(__unix64__) || (__arm64__)
+#if defined(__rv32gc__) || defined(__unix64__) || defined(__arm64__)
 	/* Don't run destructive tests. */
 	if (!TEST_EXCEPTION_DESTRUCTIVE)
 		return;

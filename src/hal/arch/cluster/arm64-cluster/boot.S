@@ -30,11 +30,12 @@
 #include <arch/cluster/arm64-cluster/cores.h>
 #include <arch/cluster/arm64-cluster/psci.h>
 
-.section ".text"
+.section .text,"ax",@progbits
 
 /* Exported symbols. */
 .globl _do_start
 .globl psci_v0_2_cpu_turn_on
+.global kstacks
 
 /*----------------------------------------------------------------------------*
  * _do_start()                                                                *
@@ -118,3 +119,13 @@ psci_v0_2_cpu_turn_on:
     mov x3, xzr
     hvc #0
     ret
+
+/*============================================================================*
+ * BSS                                                                        *
+ *============================================================================*/
+
+.section .bss,"aw",@nobits
+
+.align ARM64_WORD_SIZE
+kstacks:
+	.skip ARM64_PAGE_SIZE * ARM64_CLUSTER_NUM_CORES
