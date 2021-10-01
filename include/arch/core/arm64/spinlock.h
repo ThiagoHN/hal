@@ -40,12 +40,81 @@
 
 #endif /* _ASM_FILE_ */
 
+/**
+	 * @name Spinlock State
+	 */
+	/**@{*/
+	#define ARM64_SPINLOCK_UNLOCKED 0x0 /**< Unlocked */
+	#define ARM64_SPINLOCK_LOCKED   0x1 /**< Locked   */
+	/**@}*/
+
 #ifndef _ASM_FILE_
 
 	/**
 	 * @brief Spinlock.
 	 */
 	typedef uint64_t arm64_spinlock_t;
+
+	/**
+	 * @brief Initializes a spinlock.
+	 *
+	 * @param lock Target spinlock.
+	 *
+	 * @todo Implement this function.
+	 */
+	static inline void arm64_spinlock_init(arm64_spinlock_t *lock)
+	{
+		*lock = ARM64_SPINLOCK_UNLOCKED;
+		__sync_synchronize();
+	}
+
+	/**
+	 * @brief Attempts to lock a spinlock.
+	 *
+	 * @param lock Target spinlock.
+	 *
+	 * @returns Upon successful completion, the spinlock pointed to by
+	 * @p lock is locked and zero is returned. Upon failure, non-zero
+	 * is returned instead, and the lock is not acquired by the
+	 * caller.
+	 *
+	 */
+	static inline int arm64_spinlock_trylock(arm64_spinlock_t *lock)
+	{
+		return (
+			!__sync_bool_compare_and_swap(
+				lock,
+				ARM64_SPINLOCK_UNLOCKED,
+				ARM64_SPINLOCK_LOCKED
+			)
+		);
+	}
+
+	/**
+	 * @brief Locks a spinlock.
+	 *
+	 * @param lock Target spinlock.
+	 *
+	 */
+	static inline void arm64_spinlock_lock(arm64_spinlock_t *lock)
+	{
+		while (arm64_spinlock_trylock(lock))
+			/* noop */;
+
+		__sync_synchronize();
+	}
+
+	/**
+	 * @brief Unlocks a spinlock.
+	 *
+	 * @param lock Target spinlock.
+	 *
+	 */
+	static inline void arm64_spinlock_unlock(arm64_spinlock_t *lock)
+	{
+		*lock = ARM64_SPINLOCK_UNLOCKED;
+		__sync_synchronize();
+	}
 
 #endif
 
@@ -89,7 +158,7 @@
 	 */
 	static inline void spinlock_init(spinlock_t *lock)
 	{
-		UNUSED(lock);
+		arm64_spinlock_init(lock);
 	}
 
 	/**
@@ -97,8 +166,7 @@
 	 */
 	static inline int spinlock_trylock(spinlock_t *lock)
 	{
-		UNUSED(lock);
-		return 0;
+		return (arm64_spinlock_trylock(lock));
 	}
 
 	/**
@@ -106,7 +174,7 @@
 	 */
 	static inline void spinlock_lock(spinlock_t *lock)
 	{
-		UNUSED(lock);
+		arm64_spinlock_lock(lock);
 	}
 
 	/**
@@ -114,7 +182,7 @@
 	 */
 	static inline void spinlock_unlock(spinlock_t *lock)
 	{
-		UNUSED(lock);
+		arm64_spinlock_unlock(lock);
 	}
 
 #endif /* _ASM_FILE_ */
