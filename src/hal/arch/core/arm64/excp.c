@@ -111,6 +111,12 @@ PUBLIC void arm64_handle_exception(const struct context *ctx, arm64_word_t excp_
 	excp.num = excp_cause >> ARM64_EXCP_CAUSE_SHIFT;
 	excp.code = excp_cause;
 	excp.addr = fault_addr;
+
+	//Check if its a page fault exception
+	if (excp.num == ARM64_EXCP_PAGE_FAULT_CAUSE && \
+		(excp.code & ARM64_EXCP_PAGE_FAULT_CODE_MASK) == ARM64_EXCP_PAGE_FAULT_CODE) {
+		excp.num = ARM64_VIRT_PAGE_FAULT;
+	}
 	arm64_context_dump(ctx);
 	kprintf("[arm64][excp] exception cause %x", excp.num);
 	kprintf("[arm64][excp] exception code %x", excp.code);

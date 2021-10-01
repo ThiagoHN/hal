@@ -69,6 +69,13 @@
 	#define ARM64_EXCP_CAUSE_SHIFT (26)
 
 	/**
+	 * @brief Page fault macros.
+	 */
+	#define ARM64_EXCP_PAGE_FAULT_CAUSE (ARM64_EXCP_DATA_ABORT_WITHOUT_CHANGE_EXCP_LEVEL)
+	#define ARM64_EXCP_PAGE_FAULT_CODE_MASK (0x3F)
+	#define ARM64_EXCP_PAGE_FAULT_CODE (6)
+
+	/**
 	 * @name Hardware Exceptions
 	 */
 	/**@{*/
