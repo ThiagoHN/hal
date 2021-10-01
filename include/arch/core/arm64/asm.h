@@ -127,8 +127,9 @@
 		mov x1, #0x1000
 		add x0, x0, #1
 		mul x0, x0, x1
-		adrp x0, kstacks
-		mov	sp, x0
+		adrp x2, kstacks
+		add x2, x2, x0
+		mov	sp, x2
 
 	.endm
 

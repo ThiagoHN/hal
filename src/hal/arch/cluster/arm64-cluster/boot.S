@@ -33,8 +33,8 @@
 .section .text,"ax",@progbits
 
 /* Exported symbols. */
-.globl _do_start
-.globl psci_v0_2_cpu_turn_on
+.global _do_start
+.global arm64_psci_core_boot
 .global kstacks
 
 /*----------------------------------------------------------------------------*
@@ -108,11 +108,11 @@ halt: wfe
       b halt
 
 /*----------------------------------------------------------------------------*
- * psci_v0_2_cpu_turn_on(cpu_id)                                                                *
+ * arm64_psci_core_boot(cpu_id)                                                                *
  *----------------------------------------------------------------------------*/
 
 /* Turn on a cpu core */
-psci_v0_2_cpu_turn_on:
+arm64_psci_core_boot:
     mov x1, x0
     ldr x0, =PSCI_v0_2_64BIT_CPU_ON
     ldr x2, =_do_start

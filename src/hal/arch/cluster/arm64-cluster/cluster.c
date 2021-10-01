@@ -26,6 +26,7 @@
 #include <nanvix/hal/cluster.h>
 #include <nanvix/const.h>
 #include <nanvix/hlib.h>
+#include <arch/cluster/arm64-cluster/psci.h>
 
 EXTERN NORETURN void kmain(int, const char *[]);
 
@@ -33,10 +34,10 @@ EXTERN NORETURN void kmain(int, const char *[]);
  * @brief Cores table.
  */
 PUBLIC struct coreinfo cores[ARM64_CLUSTER_NUM_CORES] = {
-	{ true,  CORE_RUNNING,   0, NULL, 0 }, /* Master Core   */
-	{ false, CORE_RESETTING, 0, NULL, 1   }, /* Slave Core 1  */
-	{ false, CORE_RESETTING, 0, NULL, 1   }, /* Slave Core 2  */
-	{ false, CORE_RESETTING, 0, NULL, 1   }, /* Slave Core 3  */
+	{ true,  CORE_RUNNING,   0, NULL, ARM64_SPINLOCK_UNLOCKED }, /* Master Core   */
+	{ false, CORE_RESETTING, 0, NULL, ARM64_SPINLOCK_LOCKED   }, /* Slave Core 1  */
+	{ false, CORE_RESETTING, 0, NULL, ARM64_SPINLOCK_LOCKED   }, /* Slave Core 2  */
+	{ false, CORE_RESETTING, 0, NULL, ARM64_SPINLOCK_LOCKED   }, /* Slave Core 3  */
 };
 
 
@@ -67,6 +68,8 @@ PUBLIC NORETURN void arm64_cluster_slave_setup(void)
 	arm64_cluster_setup();
 	while (true)
 	{
+		core_idle();
+		core_run();
 	}
 }
 
@@ -77,5 +80,6 @@ PUBLIC NORETURN void arm64_cluster_slave_setup(void)
 PUBLIC NORETURN void arm64_cluster_master_setup(void)
 {
 	arm64_cluster_setup();
+	arm64_boot_slaves();
 	kmain(0, NULL);
 }

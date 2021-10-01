@@ -25,39 +25,76 @@
 #ifndef ARCH_CLUSTER_ARM64_CLUSTER_PSCI_H_
 #define ARCH_CLUSTER_ARM64_CLUSTER_PSCI_H_
 
+    /**
+     * @cond arm64
+     */
 
-/*  PSCI 0.2  */
+    #include <nanvix/const.h>
 
-#define PSCI_v0_2_BASE          0x84000000
-#define PSCI_v0_2_BASE_64BIT    0xc4000000
+    /**
+     * @name ARM64 PSCI ADDRESS
+     */
+    /**@{*/
+    #define PSCI_v0_2_BASE          0x84000000
+    #define PSCI_v0_2_BASE_64BIT    0xc4000000
+    /**@}*/
 
-#define PSCI_v0_2_64BIT_CPU_ON  (PSCI_v0_2_BASE_64BIT + (3))
-#define PSCI_v0_2_CPU_OFF       (PSCI_v0_2_BASE + (2))
+    /**
+     * @name ARM64 PSCI MACROS
+     */
+    /**@{*/
+    #define PSCI_v0_2_64BIT_CPU_ON  (PSCI_v0_2_BASE_64BIT + (3))
+    #define PSCI_v0_2_CPU_OFF       (PSCI_v0_2_BASE + (2))
+    /**@}*/
 
+    /**
+     * @name ARM64 PSCI RETURN CODES
+     */
+    /**@{*/
+    #define PSCI_RET_SUCCESS			 0
+    #define PSCI_RET_NOT_SUPPORTED		-1
+    #define PSCI_RET_INVALID_PARAMS		-2
+    #define PSCI_RET_DENIED				-3
+    #define PSCI_RET_ALREADY_ON			-4
+    #define PSCI_RET_ON_PENDING			-5
+    #define PSCI_RET_INTERNAL_FAILURE	-6
+    #define PSCI_RET_NOT_PRESENT		-7
+    #define PSCI_RET_DISABLED			-8
+    #define PSCI_RET_INVALID_ADDRESS	-9
+    /**@}*/
 
-#define PSCI_v0_2_CPU0          0x0
-#define PSCI_v0_2_CPU1          0x1
-#define PSCI_v0_2_CPU2          0x2
-#define PSCI_v0_2_CPU3          0x3
-
-#define PSCI_RET_SUCCESS			 0
-#define PSCI_RET_NOT_SUPPORTED		-1
-#define PSCI_RET_INVALID_PARAMS		-2
-#define PSCI_RET_DENIED				-3
-#define PSCI_RET_ALREADY_ON			-4
-#define PSCI_RET_ON_PENDING			-5
-#define PSCI_RET_INTERNAL_FAILURE	-6
-#define PSCI_RET_NOT_PRESENT		-7
-#define PSCI_RET_DISABLED			-8
-#define PSCI_RET_INVALID_ADDRESS	-9
+    /**
+     * @name ARM64 core macros.
+     */
+    /**@{*/
+    #define ARM64_CORE_MASTER (0)
+    #define ARM64_CORE_SLAVE1 (1)
+    #define ARM64_CORE_SLAVE2 (2)
+    #define ARM64_CORE_SLAVE3 (3)
+    /**@}*/
 
 #ifndef _ASM_FILE_
 
-    typedef int psci_ret;
-    typedef int cpu_id;
+    /**
+	 * @name PSCI Core Types
+	 */
+	/**@{*/
+    typedef int psci_t;
+    typedef int core_id;
+    /**@}*/
 
-    psci_ret psci_cpu_turn_on_print(cpu_id);
-    extern psci_ret psci_v0_2_cpu_turn_on(cpu_id);
-#endif
+    /**
+	 * @brief Boot the slaves cores.
+	 */
+    EXTERN void arm64_boot_slaves(void);
 
-#endif
+    /**
+	 * @brief Turn on a core.
+	 */
+    EXTERN psci_t arm64_psci_core_boot(core_id);
+
+#endif /* _ASM_FILE_ */
+
+/**@endcond*/
+
+#endif /* ARCH_CLUSTER_ARM64_CLUSTER_PSCI_H_ */
