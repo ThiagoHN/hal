@@ -63,7 +63,7 @@ PRIVATE void test_core_al(void)
 #ifndef __unix64__
 	test_upcall();
 #endif
-#if (CORE_HAS_PERF) && (TEST_PERF) && (!__arm64__)
+#if (CORE_HAS_PERF) && (TEST_PERF)
 	test_perf();
 #endif
 	test_abstract_resource();

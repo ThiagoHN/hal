@@ -44,11 +44,11 @@
 	 * @name Physical Memory Layout
 	 */
 	/**@{*/
-	#define ARM64_CLUSTER_KERNEL_BASE_PHYS		ARM64_CLUSTER_DRAM_BASE_PHYS						/**< Kernel Code and Data */
+	#define ARM64_CLUSTER_KERNEL_BASE_PHYS		(ARM64_CLUSTER_DRAM_BASE_PHYS)						/**< Kernel Code and Data */
 	#define ARM64_CLUSTER_KERNEL_END_PHYS 		(ARM64_CLUSTER_KERNEL_BASE_PHYS + ARM64_PGTAB_SIZE)	/**< Kernel End           */
 	#define ARM64_CLUSTER_KPOOL_BASE_PHYS  		(ARM64_CLUSTER_KERNEL_END_PHYS)	/**< Kernel Page Pool     */
 	#define ARM64_CLUSTER_KPOOL_END_PHYS   		(ARM64_CLUSTER_KPOOL_BASE_PHYS + ARM64_PGTAB_SIZE)  /**< Kernel Pool End      */
-	#define ARM64_CLUSTER_USER_BASE_PHYS		ARM64_CLUSTER_KPOOL_END_PHYS						/**< User Base            */
+	#define ARM64_CLUSTER_USER_BASE_PHYS		(ARM64_CLUSTER_KPOOL_END_PHYS)						/**< User Base            */
 	#define ARM64_CLUSTER_USER_END_PHYS			(ARM64_CLUSTER_USER_BASE_PHYS + ARM64_PGTAB_SIZE)	/**< User End             */
 	/**@}*/
 
@@ -73,19 +73,19 @@
 	 * @brief Memory size (in bytes).
 	 */
 	#define ARM64_CLUSTER_MEM_SIZE \
-		ARM64_CLUSTER_DRAM_SIZE
+		(ARM64_CLUSTER_DRAM_SIZE)
 
 	/**
 	 * @brief Kernel memory size (in bytes).
 	 */
 	#define ARM64_CLUSTER_KMEM_SIZE \
-		((ARM64_CLUSTER_KERNEL_END_VIRT - ARM64_CLUSTER_KERNEL_BASE_VIRT))
+		((ARM64_CLUSTER_KERNEL_END_VIRT) - (ARM64_CLUSTER_KERNEL_BASE_VIRT))
 
 	/**
 	 * @brief User memory size (in bytes).
 	 */
 	#define ARM64_CLUSTER_UMEM_SIZE \
-		((ARM64_CLUSTER_USER_END_VIRT - ARM64_CLUSTER_USER_BASE_VIRT))
+		((ARM64_CLUSTER_USER_END_VIRT) - (ARM64_CLUSTER_USER_BASE_VIRT))
 
 	#define ARM64_CLUSTER_KSTACK_SIZE ARM64_PAGE_SIZE
 
@@ -93,7 +93,7 @@
 	 * @brief Kernel page pool size (in bytes).
 	 */
 	#define ARM64_CLUSTER_KPOOL_SIZE \
-		((ARM64_CLUSTER_KPOOL_END_PHYS - ARM64_CLUSTER_KPOOL_BASE_PHYS))
+		((ARM64_CLUSTER_KPOOL_END_PHYS) - (ARM64_CLUSTER_KPOOL_BASE_PHYS))
 
 
 	/**

@@ -94,12 +94,18 @@
 		stp	x3, x4, [sp, #-16]!
 		stp	x1, x2, [sp, #-16]!
 		str x0, [sp, #-8]!
+		mrs	x1, elr_el1
+		mrs	x2, spsr_el1
+		stp	x1, x2, [sp, #-16]!
 	.endm
 
 	/*
 	 *  Exception Restore Context
 	 */
 	.macro arm64core_restore_context
+		ldp	x1, x2, [sp], #16
+		msr	elr_el1, x1
+		msr	spsr_el1, x2
 		ldr  x0, [sp], #8
 		ldp	x1, x2, [sp], #16
 		ldp	x3, x4, [sp], #16

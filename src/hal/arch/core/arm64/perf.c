@@ -108,7 +108,7 @@ PUBLIC int arm64_perf_stop(int perf)
  * @returns Upon successful completion, zero is returned. Upon
  * failure, a negative error code is returned instead.
  */
-PUBLIC int linux64_perf_restart(int perf)
+PUBLIC int arm64_perf_restart(int perf)
 {
 	/* Invalid performance monitor. */
 	if (UNLIKELY(!arm64_perf_monitor_is_valid(perf)))

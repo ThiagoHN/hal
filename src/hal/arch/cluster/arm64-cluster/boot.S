@@ -47,6 +47,10 @@
 _do_start:
     arm64core_clear_gprs
 
+    mov x1, #(0x3 << 20)
+    msr cpacr_el1, x1
+    isb
+
 /*
  * Configure the Exception Level.
  */
@@ -88,6 +92,16 @@ _do_start.slave:
     b halt
 
 _do_start.master:
+    // clear bss
+    ldr     x1, =__BSS_START
+    ldr     w2, =__BSS_SIZE
+clear_bss:
+    cbz     w2, after_bss
+    str     xzr, [x1], #8
+    sub     w2, w2, #1
+    cbnz    w2, clear_bss
+
+after_bss:
     /* Set stack adress */
     arm64_core_stack_reset x0
 
