@@ -520,7 +520,7 @@ PRIVATE int do_mppa256_mailbox_open(int nodenum)
 	}
 
 	/* Configures associated resource. */
-	mbxtab.rxs[mbxid].ret             = (-EAGAIN);
+	mbxtab.txs[mbxid].ret             = (-EAGAIN);
 	mbxtab.txs[mbxid].commit          = 0;
 	mbxtab.txs[mbxid].ack             = 1;
 	mbxtab.txs[mbxid].source_ctag     = ctag;
