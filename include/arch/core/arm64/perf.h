@@ -44,12 +44,12 @@
 	/**
 	 * @brief Number of performance events.
 	 */
-	#define ARM64_PERF_EVENTS_NUM 6
+	#define ARM64_PERF_EVENTS_NUM 20
 
 	/**
 	 * @brief Number of performance monitors.
 	 */
-	#define ARM64_PERF_MONITORS_NUM 1
+	#define ARM64_PERF_MONITORS_NUM 6
 
 	/**
 	 * @name Performance Events

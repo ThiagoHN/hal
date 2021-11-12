@@ -71,13 +71,17 @@ PUBLIC int arm64_perf_start(int perf, int event)
 	if (UNLIKELY(!arm64_perf_event_is_valid(event)))
 		return (-EINVAL);
 
-	event &= ARM64_PMEVTYPER_EVTCOUNT_MASK;
 	asm volatile("isb");
-	asm volatile("msr pmevtyper0_el0, %0" : : "r" (event));
-
 	uint32_t r = 0;
+	arm64_perf_restart(perf);
+
+	asm volatile("msr PMSELR_EL0, %0" : : "r" (perf));
+	asm volatile("msr PMXEVTYPER_EL0, %0" : : "r" (event));
+
 	asm volatile("mrs %0, pmcntenset_el0" : "=r" (r));
-	asm volatile("msr pmcntenset_el0, %0" : : "r" (r|1));
+	asm volatile("msr pmcntenset_el0, %0" : : "r" (r|(1 << perf)));
+	asm volatile("isb");
+
 	return (0);
 }
 
@@ -87,15 +91,18 @@ PUBLIC int arm64_perf_start(int perf, int event)
 PUBLIC int arm64_perf_stop(int perf)
 {
 	arm64_hword_t r = 0;
+	arm64_hword_t pccr; /* Count register. */
 
 	/* Invalid performance monitor. */
 	if (UNLIKELY(!arm64_perf_monitor_is_valid(perf)))
 		return (-EINVAL);
 
+	asm volatile("isb");
+	asm volatile("msr PMSELR_EL0, %0" : : "r" (perf));
+	asm volatile("mrs %0, PMXEVCNTR_EL0" : "=r" (pccr));
 
-
-	asm volatile("mrs %0, pmcntenset_el0" : "=r" (r));
-	asm volatile("msr pmcntenset_el0, %0" : : "r" (r & (~0x1)));
+	asm volatile("mrs %0, pmcntenclr_el0" : "=r" (r));
+	asm volatile("msr pmcntenclr_el0, %0" : : "r" (r|(1 << perf)));
 
 	return (0);
 }
@@ -114,7 +121,8 @@ PUBLIC int arm64_perf_restart(int perf)
 	if (UNLIKELY(!arm64_perf_monitor_is_valid(perf)))
 		return (-EINVAL);
 
-	asm volatile("msr pmcr_el0, %0" : : "r" (ARM64_PMCR_P));
+	asm volatile("msr PMSELR_EL0, %0" : : "r" (perf));
+	asm volatile("msr PMXEVCNTR_EL0, %0" : : "r" (0));
 
 	return (0);
 }
@@ -136,7 +144,8 @@ PUBLIC uint64_t arm64_perf_read(int perf)
 	if (UNLIKELY(!arm64_perf_monitor_is_valid(perf)))
 		return ((arm64_word_t) - 1);
 
-	asm volatile("mrs %0, pmevcntr0_el0" : "=r" (pccr));
+	asm volatile("msr PMSELR_EL0, %0" : : "r" (perf));
+	asm volatile("mrs %0, PMXEVCNTR_EL0" : "=r" (pccr));
 
 	return ((arm64_word_t) pccr);
 }
@@ -165,5 +174,5 @@ PUBLIC void arm64_perf_setup(void)
 
 	/* Enable counters */
 	asm volatile("mrs %0, pmcr_el0" : "=r" (val));
-	asm volatile("msr pmcr_el0, %0" : : "r" (val | ARM64_PMCR_E));
+	asm volatile("msr pmcr_el0, %0" : : "r" (val | ARM64_PMCR_E | ARM64_PMCR_P | ARM64_PMCR_C ));
 }

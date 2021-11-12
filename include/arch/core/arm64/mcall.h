@@ -54,14 +54,11 @@
 	 */
 	static inline arm64_word_t arm64_mcall_cpu_id(void)
 	{
-		
-		register arm64_word_t ret __asm__ ("x0");
+		arm64_word_t id = 0;
 
-		__asm__ __volatile__ (
-			"mrs x0, mpidr_el1\n;"
-			"and x0, x0, #3\n;"
-		);
-		return (ret);
+		__asm__ __volatile__("mrs %0, mpidr_el1" : "=r" (id));
+		id &= 3;
+		return (id);
 	}
 
 	/**
@@ -71,13 +68,11 @@
 	 */
 	static inline arm64_word_t arm64_mcall_exception_level(void)
 	{
-		register arm64_word_t ret __asm__ ("x0");
+		arm64_word_t el = 0;
 
-		__asm__ __volatile__ (
-			"mrs x0, CurrentEL\n;"
-			"and x0, x0, #12\n;"
-		);
-		return (ret);
+		__asm__ __volatile__("mrs %0, CurrentEL" : "=r" (el));
+		el &= 12;
+		return (el);
 	}
 
 

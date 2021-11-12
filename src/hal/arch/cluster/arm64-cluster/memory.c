@@ -243,7 +243,7 @@ PUBLIC void arm64_mmu_setup(void)
 	KASSERT(sanity_check == 0xdeadbeef);
 
 	if (mmu_is_enabled()) {
-        kprintf("[hal][mmu] MMU enable");
+        //kprintf("[hal][mmu] MMU enable");
     } else {
         kprintf("[hal][mmu] MMU enable failed");
     }
