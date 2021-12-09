@@ -186,7 +186,7 @@
 		__extension__({             \
 		 rv32gc_word_t __tmp;        \
 		  __asm__ __volatile__ (    \
-			"csrr %0, " #regname    \
+			"csrrs %0, " #regname ", x0"\
 			: "=r"(__tmp));         \
 		    __tmp;                  \
 		})
@@ -237,7 +237,7 @@
 		rv32gc_word_t misa;
 
 		__asm__ __volatile__(
-			"csrr %0, misa"
+			"csrrs %0, misa, x0"
 			: "=r" (misa)
 		);
 
@@ -254,7 +254,7 @@
 		rv32gc_word_t mhartid;
 
 		__asm__ __volatile__(
-			"csrr %0, mhartid"
+			"csrrs %0, mhartid, x0"
 			: "=r" (mhartid)
 		);
 
@@ -271,7 +271,7 @@
 		rv32gc_word_t mstatus;
 
 		__asm__ __volatile__(
-			"csrr %0, mstatus"
+			"csrrs %0, mstatus, x0"
 			: "=r" (mstatus)
 		);
 
@@ -286,7 +286,7 @@
 	static inline void rv32gc_mstatus_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mstatus, %0;"
+			"csrrw x0, mstatus, %0;"
 			:
 			: "r" (val)
 		);
@@ -302,7 +302,7 @@
 		rv32gc_word_t mie;
 
 		__asm__ __volatile__(
-			"csrr %0, mie"
+			"csrrs %0, mie, x0"
 			: "=r" (mie)
 		);
 
@@ -317,7 +317,7 @@
 	static inline void rv32gc_mie_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mie, %0;"
+			"csrrw x0, mie, %0;"
 			:
 			: "r" (val)
 		);
@@ -333,7 +333,7 @@
 		rv32gc_word_t mip;
 
 		__asm__ __volatile__(
-			"csrr %0, mip"
+			"csrrs %0, mip, x0"
 			: "=r" (mip)
 		);
 
@@ -348,7 +348,7 @@
 	static inline void rv32gc_mip_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mip, %0;"
+			"csrrw x0, mip, %0"
 			:
 			: "r" (val)
 		);
@@ -364,7 +364,7 @@
 		rv32gc_word_t mideleg;
 
 		__asm__ __volatile__(
-			"csrr %0, mideleg"
+			"csrrs %0, mideleg, x0"
 			: "=r" (mideleg)
 		);
 
@@ -379,7 +379,7 @@
 	static inline void rv32gc_mideleg_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mideleg, %0;"
+			"csrrw x0, mideleg, %0"
 			:
 			: "r" (val)
 		);
@@ -395,7 +395,7 @@
 		rv32gc_word_t mtvec;
 
 		__asm__ __volatile__(
-			"csrr %0, mtvec"
+			"csrrs %0, mtvec, x0"
 			: "=r" (mtvec)
 		);
 
@@ -410,7 +410,7 @@
 	static inline void rv32gc_mtvec_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mtvec, %0;"
+			"csrrw x0, mtvec, %0"
 			:
 			: "r" (val)
 		);
@@ -426,7 +426,7 @@
 		rv32gc_word_t mepc;
 
 		__asm__ __volatile__(
-			"csrr %0, mepc"
+			"csrrs %0, mepc, x0"
 			: "=r" (mepc)
 		);
 
@@ -441,7 +441,7 @@
 	static inline void rv32gc_mepc_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw mepc, %0;"
+			"csrrw x0, mepc, %0"
 			:
 			: "r" (val)
 		);
@@ -457,7 +457,7 @@
 		rv32gc_word_t mcause;
 
 		__asm__ __volatile__(
-			"csrr %0, mcause"
+			"csrrs %0, mcause, x0"
 			: "=r" (mcause)
 		);
 
@@ -474,7 +474,7 @@
 		rv32gc_word_t mtval;
 
 		__asm__ __volatile__(
-			"csrr %0, mtval"
+			"csrrs %0, mbadaddr, x0"
 			: "=r" (mtval)
 		);
 
@@ -491,7 +491,7 @@
 		rv32gc_word_t medeleg;
 
 		__asm__ __volatile__(
-			"csrr %0, medeleg"
+			"csrrs %0, medeleg, x0"
 			: "=r" (medeleg)
 		);
 
@@ -506,7 +506,7 @@
 	static inline void rv32gc_medeleg_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw medeleg, %0;"
+			"csrrw x0, medeleg, %0"
 			:
 			: "r" (val)
 		);

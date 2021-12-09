@@ -162,7 +162,7 @@
 		rv32gc_word_t sstatus;
 
 		__asm__ __volatile__(
-			"csrr %0, sstatus"
+			"csrrs %0, sstatus, x0"
 			: "=r" (sstatus)
 		);
 
@@ -177,7 +177,7 @@
 	static inline void rv32gc_sstatus_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw sstatus, %0;"
+			"csrrw x0, sstatus, %0"
 			:
 			: "r" (val)
 		);
@@ -193,7 +193,7 @@
 		rv32gc_word_t sie;
 
 		__asm__ __volatile__(
-			"csrr %0, sie"
+			"csrrs %0, sie, x0"
 			: "=r" (sie)
 		);
 
@@ -208,7 +208,7 @@
 	static inline void rv32gc_sie_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw sie, %0;"
+			"csrrw x0, sie, %0"
 			:
 			: "r" (val)
 		);
@@ -224,7 +224,7 @@
 		rv32gc_word_t sip;
 
 		__asm__ __volatile__(
-			"csrr %0, sip"
+			"csrrs %0, sip, x0"
 			: "=r" (sip)
 		);
 
@@ -239,7 +239,7 @@
 	static inline void rv32gc_sip_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw sip, %0;"
+			"csrrw x0, sip, %0"
 			:
 			: "r" (val)
 		);
@@ -255,7 +255,7 @@
 		rv32gc_word_t stvec;
 
 		__asm__ __volatile__(
-			"csrr %0, stvec"
+			"csrrs %0, stvec, x0"
 			: "=r" (stvec)
 		);
 
@@ -270,7 +270,7 @@
 	static inline void rv32gc_stvec_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw stvec, %0"
+			"csrrw x0, stvec, %0"
 			:
 			: "r" (val)
 		);
@@ -286,7 +286,7 @@
 		rv32gc_word_t sepc;
 
 		__asm__ __volatile__(
-			"csrr %0, sepc"
+			"csrrs %0, sepc, x0"
 			: "=r" (sepc)
 		);
 
@@ -301,7 +301,7 @@
 	static inline void rv32gc_sepc_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw sepc, %0;"
+			"csrrw x0, sepc, %0"
 			:
 			: "r" (val)
 		);
@@ -317,7 +317,7 @@
 		rv32gc_word_t scause;
 
 		__asm__ __volatile__(
-			"csrr %0, scause"
+			"csrrs %0, scause, x0"
 			: "=r" (scause)
 		);
 
@@ -334,7 +334,7 @@
 		rv32gc_word_t stval;
 
 		__asm__ __volatile__(
-			"csrr %0, stval"
+			"csrrs %0, sbadaddr, x0"
 			: "=r" (stval)
 		);
 
@@ -351,7 +351,7 @@
 		rv32gc_word_t satp;
 
 		__asm__ __volatile__(
-			"csrr %0, satp"
+			"csrrs %0, sptbr, x0"
 			: "=r" (satp)
 		);
 
@@ -366,7 +366,7 @@
 	static inline void rv32gc_satp_write(rv32gc_word_t val)
 	{
 		__asm__ __volatile__(
-			"csrw satp, %0;"
+			"csrrw x0, sptbr, %0"
 			:
 			: "r" (val)
 		);

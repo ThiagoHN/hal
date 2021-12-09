@@ -67,10 +67,10 @@ rv32gc_do_strap:
 	 * Get reference to
 	 * context structure.
 	 */
-	csrr s1, sscratch
+	csrrs s1, sscratch, x0
 
 	/* Parse trap. */
-	csrr  s2, scause
+	csrrs  s2, scause, x0
 	li    t0, RV32GC_SCAUSE_INT
 	and   t0, s2, t0
 	bnez  t0, rv32gc_do_strap.sint
@@ -94,9 +94,9 @@ rv32gc_do_strap:
 		 */
 		andi  t0, s2, RV32GC_SCAUSE_CAUSE
 		sw    t0, RV32GC_EXCP_NR(sp)
-		csrr  t0, stval
+		csrrs t0, sbadaddr, x0
 		sw    t0, RV32GC_EXCP_ADDR(sp)
-		csrr  t0, sepc
+		csrrs t0, sepc, x0
 		sw    t0, RV32GC_EXCP_INSTR(sp)
 
 		/*
@@ -166,7 +166,7 @@ rv32gc_do_strap:
 	rv32gc_do_strap.ret:
 
 		/* Retore all registers. */
-		csrr sp, sscratch
+		csrrs sp, sscratch, x0
 		rv32gc_context_restore
 
 		/* Return from event. */
