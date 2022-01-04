@@ -152,6 +152,16 @@ PRIVATE uint64_t ctzdi2(uint64_t a)
 }
 
 /**
+ * @brief Reads the mtime register.
+ *
+ * @returns The value of the mtime register.
+ */
+PUBLIC uint64_t rv32gc_clock_read(void)
+{
+	return (rv32gc_mtime_read());
+}
+
+/**
  * The rv32gc_timer_init() function initializes the timer device in the
  * underlying rv32gc core.
  *

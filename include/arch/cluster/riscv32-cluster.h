@@ -53,7 +53,7 @@
 	#define CLUSTER_IS_IO         1 /**< I/O Cluster       */
 	#define CLUSTER_IS_COMPUTE    0 /**< Compute Cluster   */
 	#define CLUSTER_HAS_EVENTS    1 /**< Event Support?    */
-	#define CLUSTER_HAS_RTC       0 /**< RTC Support?      */
+	#define CLUSTER_HAS_RTC       1 /**< RTC Support?      */
 	#define CLUSTER_HAS_IPI       0 /**< IPI Support?      */
 	/**@}*/
 

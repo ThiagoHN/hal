@@ -47,6 +47,19 @@
 	 */
 	#define RISCV32_CLUSTER_TIMEBASE 10000000
 
+#ifndef _ASM_FILE_
+
+	/**
+	 * @brief Reads the mtime register.
+	 *
+	 * @returns The timestamp counter.
+	 *
+	 * @author João Vicente Souto
+	 */
+	EXTERN uint64_t rv32gc_clock_read(void);
+
+#endif /* !_ASM_FILE_ */
+
 /*============================================================================*
  * Exported Interface                                                         *
  *============================================================================*/
@@ -84,6 +97,11 @@
 	 */
 	#define timer_reset(void) \
 		rv32gc_timer_reset(void)
+
+	/**
+	 * @see rv32gc_clock_read().
+	 */
+	#define clock_read(void) rv32gc_clock_read(void)
 
 #endif /* !_ASM_FILE_ */
 
